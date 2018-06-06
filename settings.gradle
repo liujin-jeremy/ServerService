@@ -1,1 +1,1 @@
-include ':app', ':processservice'
+include ':app', ':service'
