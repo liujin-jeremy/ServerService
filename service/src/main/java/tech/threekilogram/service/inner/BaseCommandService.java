@@ -32,7 +32,6 @@ public class BaseCommandService extends Service {
                 mCommandHandler.newCommandArrive(runnable);
             }
         }
-
         return super.onStartCommand(intent, flags, startId);
     }
 
@@ -60,14 +59,8 @@ public class BaseCommandService extends Service {
 
         void newCommandArrive(Runnable command) {
 
-            putCommand(command);
-            sendEmptyMessage(WHAT_NEW_COMMAND);
-        }
-
-
-        void putCommand(Runnable command) {
-
             mCommands.add(command);
+            sendEmptyMessage(WHAT_NEW_COMMAND);
         }
 
 

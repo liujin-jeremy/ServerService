@@ -74,4 +74,19 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
+
+    public void commandCross(View view) {
+
+        CommandManager.sendCrossCommand(this, CommandServiceRemote.class, new Runnable() {
+
+
+            @Override
+            public void run() {
+
+                String TAG = " cross command ";
+                Log.i(TAG, "run:" + Thread.currentThread());
+            }
+        });
+    }
 }
