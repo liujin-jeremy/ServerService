@@ -1,4 +1,4 @@
-package tech.threekilogram.service;
+package tech.threekilogram.service.remote;
 
 import android.content.ComponentName;
 import android.content.Context;

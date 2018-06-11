@@ -1,4 +1,4 @@
-package tech.threekilogram.service;
+package tech.threekilogram.service.remote;
 
 import android.os.Handler;
 import android.os.IBinder;

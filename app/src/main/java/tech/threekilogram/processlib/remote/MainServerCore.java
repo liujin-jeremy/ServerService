@@ -1,4 +1,4 @@
-package tech.threekilogram.processlib;
+package tech.threekilogram.processlib.remote;
 
 import android.content.Context;
 import android.content.Intent;
@@ -6,7 +6,7 @@ import android.os.Message;
 import android.os.RemoteException;
 import android.util.Log;
 
-import tech.threekilogram.service.BaseServerCore;
+import tech.threekilogram.service.remote.BaseServerCore;
 
 /**
  * @author wuxio 2018-06-03:13:46

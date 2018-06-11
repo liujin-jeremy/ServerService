@@ -21,8 +21,14 @@
 
         <service
                 android:enabled="true"
-                android:name=".MainServer"
+                android:name=".remote.MainServer"
                 android:process=":server"/>
+
+        <service
+                android:name=".command.CommandServiceRemote"
+                android:enabled="true"
+                />
+
     </application>
 
 </manifest>

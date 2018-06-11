@@ -1,10 +1,10 @@
-package tech.threekilogram.processlib;
+package tech.threekilogram.processlib.remote;
 
 import android.content.ComponentName;
 import android.os.Message;
 import android.util.Log;
 
-import tech.threekilogram.service.BaseClientCore;
+import tech.threekilogram.service.remote.BaseClientCore;
 
 /**
  * @author wuxio 2018-06-03:13:43
