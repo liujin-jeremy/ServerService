@@ -6,10 +6,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 
-import tech.threekilogram.processlib.command.CommandServiceRemote;
+import tech.threekilogram.processlib.command.InnerCommandServiceRemote;
 import tech.threekilogram.processlib.remote.MainClientCore;
 import tech.threekilogram.processlib.remote.MainServer;
-import tech.threekilogram.service.inner.CommandManager;
+import tech.threekilogram.service.command.CommandManager;
 import tech.threekilogram.service.remote.ServerConnection;
 
 /**
@@ -63,28 +63,13 @@ public class MainActivity extends AppCompatActivity {
 
     public void commandNormal(View view) {
 
-        CommandManager.sendCommand(this, CommandServiceRemote.class, new Runnable() {
+        CommandManager.sendCommand(this, InnerCommandServiceRemote.class, new Runnable() {
 
 
             @Override
             public void run() {
 
                 String TAG = " normal command ";
-                Log.i(TAG, "run:" + Thread.currentThread());
-            }
-        });
-    }
-
-
-    public void commandCross(View view) {
-
-        CommandManager.sendCrossCommand(this, CommandServiceRemote.class, new Runnable() {
-
-
-            @Override
-            public void run() {
-
-                String TAG = " cross command ";
                 Log.i(TAG, "run:" + Thread.currentThread());
             }
         });

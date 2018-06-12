@@ -1,4 +1,4 @@
-package tech.threekilogram.service.inner;
+package tech.threekilogram.service.command.inner;
 
 import android.app.Service;
 import android.content.Intent;
@@ -9,12 +9,14 @@ import android.support.annotation.Nullable;
 
 import java.util.ArrayList;
 
+import tech.threekilogram.service.command.CommandManager;
+
 /**
  * 用于本地service 执行任务,不能执行跨进程任务
  *
  * @author wuxio 2018-06-11:16:51
  */
-public class BaseCommandService extends Service {
+public class BaseInnerCommandService extends Service {
 
     private CommandHandler mCommandHandler = new CommandHandler();
 
