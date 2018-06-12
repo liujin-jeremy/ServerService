@@ -7,6 +7,7 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
 import android.support.annotation.Nullable;
+import android.util.Log;
 
 /**
  * @author wuxio 2018-06-12:7:29
@@ -36,21 +37,24 @@ public abstract class BaseCommandService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
 
-        if (intent.hasExtra(CommandManager.KEY_COMMAND)) {
+        if (intent.hasExtra(CommandManager.KEY_COMMAND_EXTRA)) {
 
-            int commandWhat = intent.getIntExtra(CommandManager.KEY_COMMAND, -1);
+            Log.i(TAG, "onStartCommand:" + " has extra ");
+            Bundle bundle = intent.getBundleExtra(CommandManager.KEY_COMMAND_EXTRA);
+            boolean which = bundle.getBoolean(CommandManager.KEY_COMMAND_WHICH);
 
-            if (intent.hasExtra(CommandManager.KEY_COMMAND_EXTRA)) {
+            if (which) {
 
-                Bundle extra = intent.getBundleExtra(CommandManager.KEY_COMMAND_EXTRA);
-                mCommandHandler.newCommandArrive(commandWhat, extra);
-                return super.onStartCommand(intent, flags, startId);
+                Log.i(TAG, "onStartCommand:" + " handle what ");
+                mCommandHandler.newCommandArrive(bundle.getInt(CommandManager.KEY_COMMAND_WHAT));
+            } else {
+
+                Log.i(TAG, "onStartCommand:" + " handle what extra ");
+                mCommandHandler.newCommandArrive(bundle.getInt(CommandManager.KEY_COMMAND_WHAT), bundle);
             }
-
-            mCommandHandler.newCommandArrive(commandWhat);
-
         }
 
+        Log.i(TAG, "onStartCommand:" + "");
         return super.onStartCommand(intent, flags, startId);
     }
 
@@ -111,6 +115,8 @@ public abstract class BaseCommandService extends Service {
                 default:
                     break;
             }
+
+            Log.i(TAG, "handleMessage:" + "");
         }
     }
 }

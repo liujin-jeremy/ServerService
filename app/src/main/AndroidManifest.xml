@@ -29,6 +29,12 @@
                 android:enabled="true"
                 />
 
+        <service
+                android:process=":test"
+                android:enabled="true"
+                android:name=".start.MainCommandService"
+               />
+
     </application>
 
 </manifest>

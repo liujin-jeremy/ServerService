@@ -9,6 +9,7 @@ import android.view.View;
 import tech.threekilogram.processlib.command.InnerCommandServiceRemote;
 import tech.threekilogram.processlib.remote.MainClientCore;
 import tech.threekilogram.processlib.remote.MainServer;
+import tech.threekilogram.processlib.start.MainCommandService;
 import tech.threekilogram.service.command.CommandManager;
 import tech.threekilogram.service.remote.ServerConnection;
 
@@ -73,5 +74,17 @@ public class MainActivity extends AppCompatActivity {
                 Log.i(TAG, "run:" + Thread.currentThread());
             }
         });
+    }
+
+
+    public void commandStart(View view) {
+
+        CommandManager.sendCommand(this, MainCommandService.class, 12);
+    }
+
+
+    public void commandStart01(View view) {
+
+        CommandManager.sendCommand(this, MainCommandService.class, 12, new Bundle());
     }
 }

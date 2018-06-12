@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.util.ArrayMap;
 
-import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
@@ -13,18 +12,13 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 public class CommandManager {
 
-    /**
-     * 添加一个 UUID 防止被攻击
-     */
-    static final String KEY_COMMAND_INDEX = "tech.threekilogram.command.inner.service:"
-            + UUID.randomUUID().toString();
 
-    static final String KEY_COMMAND = "tech.threekilogram.command.start.service:"
-            + UUID.randomUUID().toString();
+    static final String KEY_COMMAND_INDEX = "tech.threekilogram.command.inner.service:";
+    static final String KEY_COMMAND_WHAT  = "tech.threekilogram.command.start.service:";
+    static final String KEY_COMMAND_WHICH = "tech.threekilogram.command.start.service.which:";
+    static final String KEY_COMMAND_EXTRA = "tech.threekilogram.command.start.extra.service:";
 
-    static final String KEY_COMMAND_EXTRA = "tech.threekilogram.command.start.extra.service:"
-            + UUID.randomUUID().toString();
-    static final int    START_INDEX       = 1010;
+    static final int START_INDEX = 1010;
 
     private static ArrayMap< Integer, Runnable > sRunnableArrayMap = new ArrayMap<>();
     private static AtomicInteger                 sAtomicInteger    = new AtomicInteger(START_INDEX);
@@ -64,7 +58,10 @@ public class CommandManager {
 
         Intent intent = new Intent(context, commandServiceClazz);
 
-        intent.putExtra(KEY_COMMAND, what);
+        Bundle bundle = new Bundle();
+        bundle.putInt(KEY_COMMAND_WHAT, what);
+        bundle.putBoolean(KEY_COMMAND_WHICH, true);
+        intent.putExtra(KEY_COMMAND_EXTRA, bundle);
         context.startService(intent);
     }
 
@@ -80,7 +77,7 @@ public class CommandManager {
 
         Intent intent = new Intent(context, commandServiceClazz);
 
-        intent.putExtra(KEY_COMMAND, what);
+        bundle.putInt(KEY_COMMAND_WHAT, what);
         intent.putExtra(KEY_COMMAND_EXTRA, bundle);
         context.startService(intent);
     }
