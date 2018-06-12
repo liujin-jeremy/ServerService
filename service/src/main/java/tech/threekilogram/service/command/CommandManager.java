@@ -8,9 +8,6 @@ import android.support.v4.util.ArrayMap;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import tech.threekilogram.service.command.inner.BaseInnerCommandService;
-import tech.threekilogram.service.command.start.BaseCommandService;
-
 /**
  * @author wuxio 2018-06-11:17:03
  */
@@ -19,28 +16,23 @@ public class CommandManager {
     /**
      * 添加一个 UUID 防止被攻击
      */
-    private static final String KEY_COMMAND_INDEX = "tech.threekilogram.command.inner.service:"
+    static final String KEY_COMMAND_INDEX = "tech.threekilogram.command.inner.service:"
             + UUID.randomUUID().toString();
 
-    public static final String KEY_COMMAND = "tech.threekilogram.command.start.service:"
+    static final String KEY_COMMAND = "tech.threekilogram.command.start.service:"
             + UUID.randomUUID().toString();
 
-    public static final String KEY_COMMAND_EXTRA = "tech.threekilogram.command.start.extra.service:"
+    static final String KEY_COMMAND_EXTRA = "tech.threekilogram.command.start.extra.service:"
             + UUID.randomUUID().toString();
+    static final int    START_INDEX       = 1010;
 
     private static ArrayMap< Integer, Runnable > sRunnableArrayMap = new ArrayMap<>();
-    private static AtomicInteger                 sAtomicInteger    = new AtomicInteger(1010);
+    private static AtomicInteger                 sAtomicInteger    = new AtomicInteger(START_INDEX);
 
 
     static Runnable getRunnable(int index) {
 
         return sRunnableArrayMap.get(index);
-    }
-
-
-    static int getCommandWhat(Intent intent) {
-
-        return intent.getIntExtra(KEY_COMMAND, -1);
     }
 
 

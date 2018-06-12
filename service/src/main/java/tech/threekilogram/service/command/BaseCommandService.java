@@ -1,4 +1,4 @@
-package tech.threekilogram.service.command.start;
+package tech.threekilogram.service.command;
 
 import android.app.Service;
 import android.content.Intent;
@@ -7,8 +7,6 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
 import android.support.annotation.Nullable;
-
-import tech.threekilogram.service.command.CommandManager;
 
 /**
  * @author wuxio 2018-06-12:7:29

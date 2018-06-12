@@ -1,4 +1,4 @@
-package tech.threekilogram.service.command.start;
+package tech.threekilogram.service.command;
 
 import android.os.Bundle;
 

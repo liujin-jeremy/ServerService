@@ -1,4 +1,4 @@
-package tech.threekilogram.service.command.inner;
+package tech.threekilogram.service.command;
 
 import android.app.Service;
 import android.content.Intent;
@@ -8,8 +8,6 @@ import android.os.Message;
 import android.support.annotation.Nullable;
 
 import java.util.ArrayList;
-
-import tech.threekilogram.service.command.CommandManager;
 
 /**
  * 用于本地service 执行任务,不能执行跨进程任务
@@ -28,7 +26,7 @@ public class BaseInnerCommandService extends Service {
 
             int index = intent.getIntExtra(CommandManager.KEY_COMMAND_INDEX, 0);
 
-            if (index > 0) {
+            if (index >= CommandManager.START_INDEX) {
 
                 Runnable runnable = CommandManager.getRunnable(index);
                 mCommandHandler.newCommandArrive(runnable);
