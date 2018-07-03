@@ -108,6 +108,13 @@ public class MainServer extends BaseServerService {
 }
 ```
 
+```
+<service
+        android:enabled="true"
+        android:name=".remote.MainServer"
+        android:process=":server"/>  ->> 指定进程
+```
+
 3 实现客户端逻辑
 
 ```
@@ -181,3 +188,65 @@ BaseServerCore#sendMessageToClient(int)
 ```
 
 ![log](/img/img00.gif)
+
+## BaseCommandService
+
+该类可以接收CommandServiceManager发送的消息,根据消息触发不同的逻辑事件
+
+1 实现service
+
+```
+public class MainCommandService extends BaseCommandService {
+
+      private static final String TAG = "MainCommandService";
+
+      /**
+       * 实现该方法,绑定消息处理类到service
+       *
+       * @return 消息接收类
+       */
+      @Override
+      protected CommandReceiver createCommandReceiver () {
+
+            return new Receiver();
+      }
+
+      /**
+       * 该类接收收到的消息,根据消息进行逻辑处理
+       */
+      private class Receiver implements CommandReceiver {
+
+            @Override
+            public void onCommandReceive (int what) {
+
+                  Log.i(TAG, "onCommandReceive:" + what);
+            }
+
+            @Override
+            public void onCommandReceive (int what, Bundle bundle) {
+
+                  Log.i(TAG, "onCommandReceive:" + what + " " + bundle);
+            }
+      }
+}
+```
+
+```
+<service
+    android:enabled="true"
+    android:name=".start.MainCommandService"
+    android:process=":test"
+    />
+```
+
+2 通信
+
+```
+//发送一个简单的消息
+CommandServiceManager.sendCommand(this, MainCommandService.class, 12);
+```
+
+```
+//发送一个带bundle的消息
+CommandServiceManager.sendCommand(this, MainCommandService.class, 12, new Bundle());
+```

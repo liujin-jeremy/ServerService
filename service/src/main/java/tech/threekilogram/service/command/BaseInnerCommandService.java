@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
+import android.support.annotation.CallSuper;
 import android.support.annotation.Nullable;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -25,6 +26,7 @@ public class BaseInnerCommandService extends Service {
             mCommandHandler = new CommandHandler(this);
       }
 
+      @CallSuper
       @Override
       public int onStartCommand (Intent intent, int flags, int startId) {
 

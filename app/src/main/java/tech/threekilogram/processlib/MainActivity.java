@@ -1,5 +1,6 @@
 package tech.threekilogram.processlib;
 
+import android.app.Service;
 import android.os.Bundle;
 import android.os.RemoteException;
 import android.support.v7.app.AppCompatActivity;
@@ -10,6 +11,7 @@ import tech.threekilogram.processlib.remote.MainClientCore;
 import tech.threekilogram.processlib.remote.MainServer;
 import tech.threekilogram.processlib.start.MainCommandService;
 import tech.threekilogram.service.command.CommandServiceManager;
+import tech.threekilogram.service.command.ServiceCommand;
 import tech.threekilogram.service.remote.ServerConnection;
 
 /**
@@ -17,73 +19,66 @@ import tech.threekilogram.service.remote.ServerConnection;
  */
 public class MainActivity extends AppCompatActivity {
 
+      private ServerConnection mConnection;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
+      //============================ 测试ServerService ============================
+      private MainClientCore mCore;
 
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+      @Override
+      protected void onCreate (Bundle savedInstanceState) {
 
-        mConnection = new ServerConnection();
+            super.onCreate(savedInstanceState);
+            setContentView(R.layout.activity_main);
 
-    }
+            mConnection = new ServerConnection();
+      }
 
-    //============================ 测试ServerService ============================
+      public void bind (View view) {
 
-    private ServerConnection mConnection;
-    private MainClientCore   mCore;
-
-
-    public void bind(View view) {
-
-        if (mCore == null) {
-            mCore = new MainClientCore();
-        }
-        mConnection.connectToServer(this, mCore, MainServer.class);
-    }
-
-
-    public void unBind(View view) {
-
-        mConnection.disConnectToServer(this);
-    }
-
-
-    public void sendToServer(View view) {
-
-        try {
-            mCore.sendMessageToServer(12);
-        } catch (RemoteException e) {
-            e.printStackTrace();
-        }
-    }
-
-    //============================ 测试CommandService ============================
-
-
-    public void commandNormal(View view) {
-
-          CommandServiceManager.sendCommand(this, CommandService.class, new Runnable() {
-
-
-            @Override
-            public void run() {
-
-                String TAG = " normal command ";
-                Log.i(TAG, "run:" + Thread.currentThread());
+            if(mCore == null) {
+                  mCore = new MainClientCore();
             }
-        });
-    }
+            mConnection.connectToServer(this, mCore, MainServer.class);
+      }
 
+      public void unBind (View view) {
 
-    public void commandStart(View view) {
+            mConnection.disConnectToServer(this);
+      }
 
-          CommandServiceManager.sendCommand(this, MainCommandService.class, 12);
-    }
+      public void sendToServer (View view) {
 
+            try {
+                  mCore.sendMessageToServer(12);
+            } catch(RemoteException e) {
+                  e.printStackTrace();
+            }
+      }
 
-    public void commandStart01(View view) {
+      //============================ 测试CommandService ============================
 
-          CommandServiceManager.sendCommand(this, MainCommandService.class, 12, new Bundle());
-    }
+      public void commandNormal (View view) {
+
+            CommandServiceManager.sendCommand(this, CommandService.class, new ServiceCommand() {
+
+                  @Override
+                  public void run (Service service) {
+
+                        String TAG = " normal command ";
+                        Log.i(TAG, "run:" + Thread.currentThread());
+                  }
+            });
+      }
+
+      public void commandStart (View view) {
+
+            CommandServiceManager.sendCommand(this, MainCommandService.class, 12);
+      }
+
+      public void commandStart01 (View view) {
+
+            Bundle bundle = new Bundle();
+            bundle.putString("temp", "Hello");
+            CommandServiceManager.sendCommand(this, MainCommandService.class, 12, bundle);
+      }
 }

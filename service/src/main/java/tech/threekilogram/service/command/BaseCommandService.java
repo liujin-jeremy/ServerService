@@ -38,7 +38,8 @@ public abstract class BaseCommandService extends Service {
             if(intent.hasExtra(CommandServiceManager.KEY_COMMAND_EXTRA)) {
 
                   Bundle bundle = intent.getBundleExtra(CommandServiceManager.KEY_COMMAND_EXTRA);
-                  boolean which = bundle.getBoolean(CommandServiceManager.KEY_COMMAND_WHICH);
+                  boolean which = bundle
+                      .getBoolean(CommandServiceManager.KEY_COMMAND_WITHOUT_BUNDLE_EXTRA);
 
                   if(which) {
 
