@@ -5,5 +5,5 @@ import tech.threekilogram.service.command.BaseInnerCommandService;
 /**
  * @author wuxio 2018-06-11:17:45
  */
-public class InnerCommandServiceRemote extends BaseInnerCommandService {
+public class CommandService extends BaseInnerCommandService {
 }

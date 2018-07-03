@@ -5,12 +5,11 @@ import android.os.RemoteException;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-
-import tech.threekilogram.processlib.command.InnerCommandServiceRemote;
+import tech.threekilogram.processlib.command.CommandService;
 import tech.threekilogram.processlib.remote.MainClientCore;
 import tech.threekilogram.processlib.remote.MainServer;
 import tech.threekilogram.processlib.start.MainCommandService;
-import tech.threekilogram.service.command.CommandManager;
+import tech.threekilogram.service.command.CommandServiceManager;
 import tech.threekilogram.service.remote.ServerConnection;
 
 /**
@@ -64,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void commandNormal(View view) {
 
-        CommandManager.sendCommand(this, InnerCommandServiceRemote.class, new Runnable() {
+          CommandServiceManager.sendCommand(this, CommandService.class, new Runnable() {
 
 
             @Override
@@ -79,12 +78,12 @@ public class MainActivity extends AppCompatActivity {
 
     public void commandStart(View view) {
 
-        CommandManager.sendCommand(this, MainCommandService.class, 12);
+          CommandServiceManager.sendCommand(this, MainCommandService.class, 12);
     }
 
 
     public void commandStart01(View view) {
 
-        CommandManager.sendCommand(this, MainCommandService.class, 12, new Bundle());
+          CommandServiceManager.sendCommand(this, MainCommandService.class, 12, new Bundle());
     }
 }

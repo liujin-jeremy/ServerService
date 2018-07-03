@@ -5,55 +5,49 @@ import android.content.Intent;
 import android.os.IBinder;
 
 /**
+ * 通过封装 messenger 用于service 跨进程通信
+ *
  * @author wuxio
  */
 public abstract class BaseServerService extends Service {
 
-    private static final String TAG = "BaseServerService";
+      private BaseServerCore mServerCore;
 
-    private BaseServerCore mServerCore;
+      public BaseServerService () {
 
+            mServerCore = makeServerCore();
+      }
 
-    public BaseServerService() {
+      /**
+       * 创建一个核心逻辑类
+       *
+       * @return {@link BaseServerCore}
+       */
+      protected abstract BaseServerCore makeServerCore ();
 
-        mServerCore = makeServerCore();
-    }
+      @Override
+      public void onCreate () {
 
+            mServerCore.onCreate(this);
+      }
 
-    /**
-     * 创建一个核心逻辑类
-     *
-     * @return {@link BaseServerCore}
-     */
-    protected abstract BaseServerCore makeServerCore();
+      @Override
+      public void onDestroy () {
 
+            mServerCore.onDestroy();
+      }
 
-    @Override
-    public void onCreate() {
+      @Override
+      public IBinder onBind (Intent intent) {
 
-        mServerCore.onCreate(this);
-    }
+            mServerCore.onStart(intent);
+            return mServerCore.getBinder();
+      }
 
+      @Override
+      public boolean onUnbind (Intent intent) {
 
-    @Override
-    public IBinder onBind(Intent intent) {
-
-        mServerCore.onStart(intent);
-        return mServerCore.getBinder();
-    }
-
-
-    @Override
-    public boolean onUnbind(Intent intent) {
-
-        mServerCore.onStop(intent);
-        return super.onUnbind(intent);
-    }
-
-
-    @Override
-    public void onDestroy() {
-
-        mServerCore.onDestroy();
-    }
+            mServerCore.onStop(intent);
+            return super.onUnbind(intent);
+      }
 }

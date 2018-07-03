@@ -14,72 +14,66 @@ import android.os.RemoteException;
  */
 class ServerHandler extends Handler {
 
-    private static final String TAG              = "ServerHandler";
-    static final         int    WHAT_BIND_CLIENT = 0xACCD_ffff;
+      static final         int    WHAT_BIND_CLIENT = 0xACCD_ffff;
+      private static final String TAG              = "ServerHandler";
+      /**
+       * server messenger ,used for communication
+       */
+      private Messenger mServerMessenger;
+      private Messenger mClientMessenger;
 
-    /**
-     * server messenger ,used for communication
-     */
-    private Messenger mServerMessenger;
-    private Messenger mClientMessenger;
+      /**
+       * 将消息转发给它处理
+       */
+      private BaseServerCore mServerCore;
 
-    /**
-     * 将消息转发给它处理
-     */
-    private BaseServerCore mServerCore;
+      ServerHandler (BaseServerCore serverCore) {
 
+            mServerMessenger = new Messenger(this);
+            mServerCore = serverCore;
+      }
 
-    ServerHandler(BaseServerCore serverCore) {
+      /**
+       * 用于{@link BaseServerService#onBind(Intent)} 的返回值
+       *
+       * @return binder
+       */
+      IBinder getBinder () {
 
-        mServerMessenger = new Messenger(this);
-        mServerCore = serverCore;
-    }
+            return mServerMessenger.getBinder();
+      }
 
+      @Override
+      public void handleMessage (Message msg) {
 
-    /**
-     * 用于{@link BaseServerService#onBind(Intent)} 的返回值
-     *
-     * @return binder
-     */
-    IBinder getBinder() {
+            switch(msg.what) {
 
-        return mServerMessenger.getBinder();
-    }
+                  case WHAT_BIND_CLIENT:
+                        bindClient(msg);
+                        break;
+                  default:
+                        mServerCore.handleMessage(msg);
+                        break;
+            }
+      }
 
+      /**
+       * get message.replyTo as clientMessenger
+       */
+      private void bindClient (Message msg) {
 
-    @Override
-    public void handleMessage(Message msg) {
+            mClientMessenger = msg.replyTo;
+      }
 
-        switch (msg.what) {
+      /**
+       * 向远程服务发行消息
+       *
+       * @param msg 消息
+       *
+       * @throws RemoteException 如果服务不再了会触发异常
+       */
+      void sendMessageToClient (Message msg) throws RemoteException {
 
-            case WHAT_BIND_CLIENT:
-                bindClient(msg);
-                break;
-            default:
-                mServerCore.handleMessage(msg);
-                break;
-        }
-    }
-
-
-    /**
-     * get message.replyTo as clientMessenger
-     */
-    private void bindClient(Message msg) {
-
-        mClientMessenger = msg.replyTo;
-    }
-
-
-    /**
-     * 向远程服务发行消息
-     *
-     * @param msg 消息
-     * @throws RemoteException 如果服务不再了会触发异常
-     */
-    void sendMessageToClient(Message msg) throws RemoteException {
-
-        mClientMessenger.send(msg);
-    }
-
+            mClientMessenger.send(msg);
+      }
 }

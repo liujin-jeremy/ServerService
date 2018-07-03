@@ -25,7 +25,7 @@
                 android:process=":server"/>
 
         <service
-                android:name=".command.InnerCommandServiceRemote"
+            android:name=".command.CommandService"
                 android:enabled="true"
                 />
 

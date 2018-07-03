@@ -6,7 +6,7 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
 import android.support.annotation.Nullable;
-
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 
 /**
@@ -16,66 +16,85 @@ import java.util.ArrayList;
  */
 public class BaseInnerCommandService extends Service {
 
-    private CommandHandler mCommandHandler = new CommandHandler();
+      private CommandHandler mCommandHandler;
 
+      @Override
+      public void onCreate () {
 
-    @Override
-    public int onStartCommand(Intent intent, int flags, int startId) {
+            super.onCreate();
+            mCommandHandler = new CommandHandler(this);
+      }
 
-        if (intent.hasExtra(CommandManager.KEY_COMMAND_INDEX)) {
+      @Override
+      public int onStartCommand (Intent intent, int flags, int startId) {
 
-            int index = intent.getIntExtra(CommandManager.KEY_COMMAND_INDEX, 0);
+            if(intent.hasExtra(CommandServiceManager.KEY_COMMAND_INDEX)) {
 
-            if (index >= CommandManager.START_INDEX) {
+                  int index = intent.getIntExtra(CommandServiceManager.KEY_COMMAND_INDEX, 0);
 
-                Runnable runnable = CommandManager.getRunnable(index);
-                mCommandHandler.newCommandArrive(runnable);
+                  if(index >= CommandServiceManager.START_INDEX) {
+
+                        ServiceCommand runnable = CommandServiceManager.getRunnable(index);
+                        mCommandHandler.newCommandArrive(runnable);
+                  }
             }
-        }
-        return super.onStartCommand(intent, flags, startId);
-    }
+            return super.onStartCommand(intent, flags, startId);
+      }
 
+      @Override
+      public void onDestroy () {
 
-    /**
-     * don,t  use this
-     */
-    @Nullable
-    @Override
-    public IBinder onBind(Intent intent) {
+            super.onDestroy();
 
-        return null;
-    }
+            if(mCommandHandler != null) {
 
-
-    /**
-     * 执行任务,使用 Handler 执行任务,防止阻塞{@link #onStartCommand(Intent, int, int)}
-     */
-    private static class CommandHandler extends Handler {
-
-        private ArrayList< Runnable > mCommands = new ArrayList<>();
-
-        final static int WHAT_NEW_COMMAND = 0b100010101;
-
-
-        void newCommandArrive(Runnable command) {
-
-            mCommands.add(command);
-            sendEmptyMessage(WHAT_NEW_COMMAND);
-        }
-
-
-        @Override
-        public void handleMessage(Message msg) {
-
-            int what = msg.what;
-
-            if (what == WHAT_NEW_COMMAND) {
-
-                while (mCommands.size() > 0) {
-                    Runnable command = mCommands.remove(0);
-                    command.run();
-                }
+                  mCommandHandler.removeCallbacksAndMessages(null);
             }
-        }
-    }
+      }
+
+      /**
+       * don,t  use this
+       */
+      @Nullable
+      @Override
+      public IBinder onBind (Intent intent) {
+
+            return null;
+      }
+
+      /**
+       * 执行任务,使用 Handler 执行任务,防止阻塞{@link #onStartCommand(Intent, int, int)}
+       */
+      private static class CommandHandler extends Handler {
+
+            final static int WHAT_NEW_COMMAND = 0b100010101;
+
+            private ArrayList<ServiceCommand> mCommands = new ArrayList<>();
+            private WeakReference<BaseInnerCommandService> mReference;
+
+            public CommandHandler (BaseInnerCommandService service) {
+
+                  mReference = new WeakReference<>(service);
+            }
+
+            void newCommandArrive (ServiceCommand command) {
+
+                  mCommands.add(command);
+                  sendEmptyMessage(WHAT_NEW_COMMAND);
+            }
+
+            @Override
+            public void handleMessage (Message msg) {
+
+                  int what = msg.what;
+
+                  if(what == WHAT_NEW_COMMAND) {
+
+                        while(mCommands.size() > 0) {
+                              ServiceCommand command = mCommands.remove(0);
+                              command.run(mReference.get());
+                        }
+                  }
+            }
+      }
 }
