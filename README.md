@@ -19,7 +19,7 @@ Add it in your root build.gradle at the end of repositories:
 
 ```
 	dependencies {
-	        implementation 'com.github.threekilogram:ServerService:1.2.1'
+	        implementation 'com.github.threekilogram:ServerService:1.2.2'
 	}
 ```
 
@@ -248,6 +248,7 @@ CommandServiceManager.sendCommand(this, MainCommandService.class, 12);
 
 ```
 //发送一个带bundle的消息
+<<<<<<< HEAD
 Bundle bundle = new Bundle();
 bundle.putString("temp", "Hello");
 CommandServiceManager.sendCommand(this, MainCommandService.class, 12, bundle);
@@ -260,3 +261,7 @@ tech.threekilogram.processlib:test I/MainCommandService: onCommandReceive:12
 tech.threekilogram.processlib:test I/MainCommandService: onCommandReceive:12 Bundle[{tech.threekilogram.command.start.service:=12, temp=Hello}]
 ```
 
+=======
+CommandServiceManager.sendCommand(this, MainCommandService.class, 12, new Bundle());
+```
+>>>>>>> b48f3c8c8222ceeaffabb17114e95ffaaabc03fd
