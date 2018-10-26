@@ -248,5 +248,15 @@ CommandServiceManager.sendCommand(this, MainCommandService.class, 12);
 
 ```
 //发送一个带bundle的消息
-CommandServiceManager.sendCommand(this, MainCommandService.class, 12, new Bundle());
+Bundle bundle = new Bundle();
+bundle.putString("temp", "Hello");
+CommandServiceManager.sendCommand(this, MainCommandService.class, 12, bundle);
 ```
+
+log:
+
+```
+tech.threekilogram.processlib:test I/MainCommandService: onCommandReceive:12
+tech.threekilogram.processlib:test I/MainCommandService: onCommandReceive:12 Bundle[{tech.threekilogram.command.start.service:=12, temp=Hello}]
+```
+
