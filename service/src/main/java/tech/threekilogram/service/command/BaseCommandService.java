@@ -15,14 +15,12 @@ import android.support.annotation.Nullable;
  */
 public abstract class BaseCommandService extends Service {
 
-      private static final String TAG = "BaseCommandService";
-
       private CommandHandler mCommandHandler;
 
-      public BaseCommandService () {
+      public BaseCommandService ( ) {
 
             CommandReceiver receiver = createCommandReceiver();
-            mCommandHandler = new CommandHandler(receiver);
+            mCommandHandler = new CommandHandler( receiver );
       }
 
       /**
@@ -30,38 +28,38 @@ public abstract class BaseCommandService extends Service {
        *
        * @return {@link CommandReceiver}
        */
-      protected abstract CommandReceiver createCommandReceiver ();
+      protected abstract CommandReceiver createCommandReceiver ( );
 
       @Override
-      public int onStartCommand (Intent intent, int flags, int startId) {
+      public int onStartCommand ( Intent intent, int flags, int startId ) {
 
-            if(intent.hasExtra(CommandServiceManager.KEY_COMMAND_EXTRA)) {
+            if( intent.hasExtra( CommandServiceManager.KEY_COMMAND_EXTRA ) ) {
 
-                  Bundle bundle = intent.getBundleExtra(CommandServiceManager.KEY_COMMAND_EXTRA);
+                  Bundle bundle = intent.getBundleExtra( CommandServiceManager.KEY_COMMAND_EXTRA );
                   boolean which = bundle
-                      .getBoolean(CommandServiceManager.KEY_COMMAND_WITHOUT_BUNDLE_EXTRA);
+                      .getBoolean( CommandServiceManager.KEY_COMMAND_WITHOUT_BUNDLE_EXTRA );
 
-                  if(which) {
+                  if( which ) {
 
                         mCommandHandler
                             .newCommandArrive(
-                                bundle.getInt(CommandServiceManager.KEY_COMMAND_WHAT));
+                                bundle.getInt( CommandServiceManager.KEY_COMMAND_WHAT ) );
                   } else {
 
                         mCommandHandler
                             .newCommandArrive(
-                                bundle.getInt(CommandServiceManager.KEY_COMMAND_WHAT),
+                                bundle.getInt( CommandServiceManager.KEY_COMMAND_WHAT ),
                                 bundle
                             );
                   }
             }
 
-            return super.onStartCommand(intent, flags, startId);
+            return super.onStartCommand( intent, flags, startId );
       }
 
       @Nullable
       @Override
-      public IBinder onBind (Intent intent) {
+      public IBinder onBind ( Intent intent ) {
 
             return null;
       }
@@ -73,39 +71,39 @@ public abstract class BaseCommandService extends Service {
 
             private CommandReceiver mCommandReceiver;
 
-            public CommandHandler (CommandReceiver commandReceiver) {
+            public CommandHandler ( CommandReceiver commandReceiver ) {
 
                   mCommandReceiver = commandReceiver;
             }
 
-            public void newCommandArrive (int commandWhat) {
+            public void newCommandArrive ( int commandWhat ) {
 
                   Message message = Message.obtain();
                   message.what = WHAT_COMMAND;
                   message.arg1 = commandWhat;
-                  sendMessage(message);
+                  sendMessage( message );
             }
 
-            public void newCommandArrive (int commandWhat, Bundle bundle) {
+            public void newCommandArrive ( int commandWhat, Bundle bundle ) {
 
                   Message message = Message.obtain();
                   message.what = WHAT_COMMAND_EXTRA;
                   message.arg1 = commandWhat;
-                  message.setData(bundle);
-                  sendMessage(message);
+                  message.setData( bundle );
+                  sendMessage( message );
             }
 
             @Override
-            public void handleMessage (Message msg) {
+            public void handleMessage ( Message msg ) {
 
-                  switch(msg.what) {
+                  switch( msg.what ) {
 
                         case WHAT_COMMAND:
-                              mCommandReceiver.onCommandReceive(msg.arg1);
+                              mCommandReceiver.onCommandReceive( msg.arg1 );
                               break;
 
                         case WHAT_COMMAND_EXTRA:
-                              mCommandReceiver.onCommandReceive(msg.arg1, msg.getData());
+                              mCommandReceiver.onCommandReceive( msg.arg1, msg.getData() );
                               break;
                         default:
                               break;
