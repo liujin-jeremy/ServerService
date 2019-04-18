@@ -4,23 +4,8 @@
 
 ## 引入
 
-Add it in your root build.gradle at the end of repositories:
-
 ```
-	allprojects {
-		repositories {
-			...
-			maven { url 'https://jitpack.io' }
-		}
-	}
-```
-
-**Step 2.** Add the dependency
-
-```
-	dependencies {
-	        implementation 'com.github.threekilogram:ServerService:1.2.2'
-	}
+implementation 'tech.liujin:service:1.0.0'
 ```
 
 ## BaseServerService
@@ -265,3 +250,5 @@ tech.threekilogram.processlib:test I/MainCommandService: onCommandReceive:12 Bun
 CommandServiceManager.sendCommand(this, MainCommandService.class, 12, new Bundle());
 ```
 >>>>>>> b48f3c8c8222ceeaffabb17114e95ffaaabc03fd
+
+```
