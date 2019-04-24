@@ -2,7 +2,7 @@ package tech.threekilogram.processlib;
 
 import android.os.Bundle;
 import android.util.Log;
-import tech.liujin.service.command.RemoteCommandService;
+import tech.liujin.service.RemoteCommandService;
 
 /**
  * @author wuxio 2018-06-12:8:35

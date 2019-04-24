@@ -3,7 +3,7 @@ package tech.threekilogram.processlib;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import tech.liujin.service.command.CommandManager;
+import tech.liujin.service.CommandManager;
 
 /**
  * @author wuxio

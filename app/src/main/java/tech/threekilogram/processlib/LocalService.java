@@ -1,7 +1,7 @@
 package tech.threekilogram.processlib;
 
 import android.util.Log;
-import tech.liujin.service.command.LocalCommandService;
+import tech.liujin.service.LocalCommandService;
 
 /**
  * @author wuxio 2018-06-11:17:45

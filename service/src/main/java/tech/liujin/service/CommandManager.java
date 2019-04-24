@@ -1,4 +1,4 @@
-package tech.liujin.service.command;
+package tech.liujin.service;
 
 import android.content.Context;
 import android.content.Intent;
