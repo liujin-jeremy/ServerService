@@ -7,8 +7,6 @@ import android.util.Log;
 import android.view.View;
 import tech.liujin.service.command.CommandServiceManager;
 import tech.liujin.service.command.ServiceCommand;
-import tech.threekilogram.processlib.command.CommandService;
-import tech.threekilogram.processlib.start.MainCommandService;
 
 /**
  * @author wuxio
@@ -26,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
 
       public void commandNormal ( View view ) {
 
-            CommandServiceManager.sendCommand( this, CommandService.class, new ServiceCommand() {
+            CommandServiceManager.sendCommand( this, LocalService.class, new ServiceCommand() {
 
                   @Override
                   public void run ( Service service ) {
@@ -39,13 +37,13 @@ public class MainActivity extends AppCompatActivity {
 
       public void commandStart ( View view ) {
 
-            CommandServiceManager.sendCommand( this, MainCommandService.class, 12 );
+            CommandServiceManager.sendCommand( this, RemoteService.class, 12 );
       }
 
       public void commandStart01 ( View view ) {
 
             Bundle bundle = new Bundle();
             bundle.putString( "temp", "Hello" );
-            CommandServiceManager.sendCommand( this, MainCommandService.class, 12, bundle );
+            CommandServiceManager.sendCommand( this, RemoteService.class, 12, bundle );
       }
 }

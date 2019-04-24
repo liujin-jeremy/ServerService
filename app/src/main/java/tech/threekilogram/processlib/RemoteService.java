@@ -1,16 +1,16 @@
-package tech.threekilogram.processlib.start;
+package tech.threekilogram.processlib;
 
 import android.os.Bundle;
 import android.util.Log;
-import tech.liujin.service.command.RemoteCommandService;
 import tech.liujin.service.command.CommandReceiver;
+import tech.liujin.service.command.RemoteCommandService;
 
 /**
  * @author wuxio 2018-06-12:8:35
  */
-public class MainCommandService extends RemoteCommandService {
+public class RemoteService extends RemoteCommandService {
 
-      private static final String TAG = "MainCommandService";
+      private static final String TAG = "RemoteService";
 
       /**
        * 实现该方法,绑定消息处理类到service

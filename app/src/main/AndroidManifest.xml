@@ -22,14 +22,12 @@
 
             <service
                 android:enabled="true"
-                android:name=".command.CommandService"
-                />
+                android:name=".LocalService"/>
 
             <service
                 android:enabled="true"
-                android:name=".start.MainCommandService"
-                android:process=":test"
-                />
+                android:name=".RemoteService"
+                android:process=":test"/>
 
       </application>
 

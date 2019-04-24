@@ -11,7 +11,7 @@ import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 
 /**
- * 用于本地service 执行任务,不能执行跨进程任务
+ * 用于本地 service 执行任务,不能执行跨进程任务
  *
  * @author wuxio 2018-06-11:16:51
  */
