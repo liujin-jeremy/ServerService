@@ -5,8 +5,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import tech.liujin.service.command.CommandServiceManager;
-import tech.liujin.service.command.ServiceCommand;
+import tech.liujin.service.command.CommandManager;
 
 /**
  * @author wuxio
@@ -24,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
 
       public void commandNormal ( View view ) {
 
-            CommandServiceManager.sendCommand( this, LocalService.class, new ServiceCommand() {
+            CommandManager.sendRemoteCommand( this, LocalService.class, new ServiceCommand() {
 
                   @Override
                   public void run ( Service service ) {
@@ -37,13 +36,13 @@ public class MainActivity extends AppCompatActivity {
 
       public void commandStart ( View view ) {
 
-            CommandServiceManager.sendCommand( this, RemoteService.class, 12 );
+            CommandManager.sendRemoteCommand( this, RemoteService.class, 12 );
       }
 
       public void commandStart01 ( View view ) {
 
             Bundle bundle = new Bundle();
             bundle.putString( "temp", "Hello" );
-            CommandServiceManager.sendCommand( this, RemoteService.class, 12, bundle );
+            CommandManager.sendRemoteCommand( this, RemoteService.class, 12, bundle );
       }
 }

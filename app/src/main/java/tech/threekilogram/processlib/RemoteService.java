@@ -2,7 +2,6 @@ package tech.threekilogram.processlib;
 
 import android.os.Bundle;
 import android.util.Log;
-import tech.liujin.service.command.CommandReceiver;
 import tech.liujin.service.command.RemoteCommandService;
 
 /**
@@ -12,32 +11,15 @@ public class RemoteService extends RemoteCommandService {
 
       private static final String TAG = "RemoteService";
 
-      /**
-       * 实现该方法,绑定消息处理类到service
-       *
-       * @return 消息接收类
-       */
       @Override
-      protected CommandReceiver createCommandReceiver ( ) {
+      public void onCommandReceive ( int what ) {
 
-            return new Receiver();
+            Log.i( TAG, "onCommandReceive:" + what );
       }
 
-      /**
-       * 该类接收收到的消息,根据消息进行逻辑处理
-       */
-      private class Receiver implements CommandReceiver {
+      @Override
+      public void onCommandReceive ( int what, Bundle bundle ) {
 
-            @Override
-            public void onCommandReceive ( int what ) {
-
-                  Log.i( TAG, "onCommandReceive:" + what );
-            }
-
-            @Override
-            public void onCommandReceive ( int what, Bundle bundle ) {
-
-                  Log.i( TAG, "onCommandReceive:" + what + " " + bundle );
-            }
+            Log.i( TAG, "onCommandReceive:" + what + " " + bundle );
       }
 }

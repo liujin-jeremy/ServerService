@@ -13,35 +13,60 @@ import android.support.annotation.Nullable;
  *
  * @author wuxio 2018-06-12:7:29
  */
-public abstract class RemoteCommandService extends Service {
+public class RemoteCommandService extends Service {
 
+      /**
+       * 辅助处理命令
+       */
       private CommandHandler mCommandHandler;
 
       public RemoteCommandService ( ) {
 
-            CommandReceiver receiver = createCommandReceiver();
-            mCommandHandler = new CommandHandler( receiver );
+            mCommandHandler = new CommandHandler( this );
       }
 
       /**
-       * 创建命令接收器
+       * 收到command
        *
-       * @return {@link CommandReceiver}
+       * @param what 标识
        */
-      protected abstract CommandReceiver createCommandReceiver ( );
+      protected void onCommandReceive ( int what ) { }
+
+      /**
+       * 收到command
+       *
+       * @param bundle bundle
+       */
+      protected void onCommandReceive ( Bundle bundle ) { }
+
+      /**
+       * 收到带附件的command
+       *
+       * @param what 标识
+       * @param bundle 附件包
+       */
+      protected void onCommandReceive ( int what, Bundle bundle ) {}
 
       @Override
       public int onStartCommand ( Intent intent, int flags, int startId ) {
 
-            if( intent.hasExtra( CommandServiceManager.KEY_COMMAND_EXTRA ) ) {
+            int type = intent.getIntExtra( CommandManager.KEY_COMMAND_TYPE, CommandManager.COMMAND_TYPE_NOT_DEFINE );
 
-                  Bundle bundle = intent.getBundleExtra( CommandServiceManager.KEY_COMMAND_EXTRA );
-                  boolean which = bundle.getBoolean( CommandServiceManager.KEY_COMMAND_WITHOUT_BUNDLE_EXTRA );
-                  if( which ) {
-                        mCommandHandler.newCommandArrive( bundle.getInt( CommandServiceManager.KEY_COMMAND_WHAT ) );
-                  } else {
-                        mCommandHandler.newCommandArrive( bundle.getInt( CommandServiceManager.KEY_COMMAND_WHAT ), bundle );
-                  }
+            switch( type ) {
+                  case CommandManager.COMMAND_TYPE_WHAT:
+                        mCommandHandler.newCommandArrive( intent.getIntExtra( CommandManager.KEY_COMMAND_WHAT, 0 ) );
+                        break;
+                  case CommandManager.COMMAND_TYPE_BUNDLE:
+                        mCommandHandler.newCommandArrive( intent.getBundleExtra( CommandManager.KEY_COMMAND_BUNDLE ) );
+                        break;
+                  case CommandManager.COMMAND_TYPE_WHAT_BUNDLE:
+                        mCommandHandler.newCommandArrive(
+                            intent.getIntExtra( CommandManager.KEY_COMMAND_WHAT, 0 ),
+                            intent.getBundleExtra( CommandManager.KEY_COMMAND_BUNDLE )
+                        );
+                        break;
+                  default:
+                        break;
             }
 
             return super.onStartCommand( intent, flags, startId );
@@ -54,16 +79,20 @@ public abstract class RemoteCommandService extends Service {
             return null;
       }
 
+      /**
+       * 辅助处理命令
+       */
       private static class CommandHandler extends Handler {
 
-            private static final int WHAT_COMMAND       = 0b100101010;
-            private static final int WHAT_COMMAND_EXTRA = 0b100101011;
+            private static final int WHAT_COMMAND        = 0b100100000;
+            private static final int BUNDLE_COMMAND      = 0b100100001;
+            private static final int WHAT_BUNDLE_COMMAND = 0b100100011;
 
-            private CommandReceiver mCommandReceiver;
+            private RemoteCommandService mService;
 
-            private CommandHandler ( CommandReceiver commandReceiver ) {
+            private CommandHandler ( RemoteCommandService service ) {
 
-                  mCommandReceiver = commandReceiver;
+                  mService = service;
             }
 
             private void newCommandArrive ( int commandWhat ) {
@@ -74,10 +103,18 @@ public abstract class RemoteCommandService extends Service {
                   sendMessage( message );
             }
 
+            private void newCommandArrive ( Bundle bundle ) {
+
+                  Message message = Message.obtain();
+                  message.what = BUNDLE_COMMAND;
+                  message.setData( bundle );
+                  sendMessage( message );
+            }
+
             private void newCommandArrive ( int commandWhat, Bundle bundle ) {
 
                   Message message = Message.obtain();
-                  message.what = WHAT_COMMAND_EXTRA;
+                  message.what = WHAT_BUNDLE_COMMAND;
                   message.arg1 = commandWhat;
                   message.setData( bundle );
                   sendMessage( message );
@@ -89,12 +126,13 @@ public abstract class RemoteCommandService extends Service {
                   switch( msg.what ) {
 
                         case WHAT_COMMAND:
-                              mCommandReceiver.onCommandReceive( msg.arg1 );
+                              mService.onCommandReceive( msg.arg1 );
                               break;
-
-                        case WHAT_COMMAND_EXTRA:
-                              mCommandReceiver.onCommandReceive( msg.arg1, msg.getData() );
+                        case BUNDLE_COMMAND:
+                              mService.onCommandReceive( msg.getData() );
                               break;
+                        case WHAT_BUNDLE_COMMAND:
+                              mService.onCommandReceive( msg.arg1, msg.getData() );
                         default:
                               break;
                   }
