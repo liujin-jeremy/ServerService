@@ -1,4 +1,4 @@
-package tech.threekilogram.service.command;
+package tech.liujin.service.command;
 
 import android.app.Service;
 import android.content.Context;
@@ -18,5 +18,5 @@ public interface ServiceCommand {
        *
        * @param service 执行该接口的service,主要用于提供context
        */
-      void run (Service service);
+      void run ( Service service );
 }

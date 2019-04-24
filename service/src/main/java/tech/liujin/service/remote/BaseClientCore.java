@@ -1,4 +1,4 @@
-package tech.threekilogram.service.remote;
+package tech.liujin.service.remote;
 
 import android.content.ComponentName;
 import android.content.Context;
@@ -24,11 +24,11 @@ public abstract class BaseClientCore {
        * 初始化
        *
        * @param binder binder from {@link ServerConnection#onServiceConnected(ComponentName,
-       * IBinder)}
+       *     IBinder)}
        */
-      void init (IBinder binder) {
+      void init ( IBinder binder ) {
 
-            mClientHandler = new ClientHandler(binder, this);
+            mClientHandler = new ClientHandler( binder, this );
       }
 
       /**
@@ -36,7 +36,7 @@ public abstract class BaseClientCore {
        *
        * @param name service componentName
        */
-      protected abstract void onStart (ComponentName name);
+      protected abstract void onStart ( ComponentName name );
 
       /**
        * 当处于绑定状态,远端断开连接之后回调,一般该方法回调时,说明服务端service意外断开了,用户可能需要重启service
@@ -45,7 +45,7 @@ public abstract class BaseClientCore {
        *
        * @param name service componentName
        */
-      protected void onServiceDisconnected (ComponentName name) {
+      protected void onServiceDisconnected ( ComponentName name ) {
 
       }
 
@@ -54,7 +54,7 @@ public abstract class BaseClientCore {
        *
        * @param connection 该连接断开了
        */
-      protected void onFinish (ServerConnection connection) {
+      protected void onFinish ( ServerConnection connection ) {
 
       }
 
@@ -63,7 +63,7 @@ public abstract class BaseClientCore {
        *
        * @param name service componentName
        */
-      protected void onBindingDied (ComponentName name) {
+      protected void onBindingDied ( ComponentName name ) {
 
       }
 
@@ -72,7 +72,7 @@ public abstract class BaseClientCore {
        *
        * @return handler
        */
-      public Handler getHandler () {
+      public Handler getHandler ( ) {
 
             return mClientHandler;
       }
@@ -82,7 +82,7 @@ public abstract class BaseClientCore {
        *
        * @param msg 消息,来自服务端或者自己的handler{@link #getHandler()}发送的消息
        */
-      protected abstract void handleMessage (Message msg);
+      protected abstract void handleMessage ( Message msg );
 
       /**
        * 向服务器发动一条消息
@@ -91,12 +91,12 @@ public abstract class BaseClientCore {
        *
        * @throws RemoteException 如果远程服务不再了,会触发异常
        */
-      public final void sendMessageToServer (int what) throws RemoteException {
+      public final void sendMessageToServer ( int what ) throws RemoteException {
 
             Message message = Message.obtain();
             message.what = what;
 
-            mClientHandler.sendMessageToServer(message);
+            mClientHandler.sendMessageToServer( message );
       }
 
       /**
@@ -107,13 +107,13 @@ public abstract class BaseClientCore {
        *
        * @throws RemoteException 如果远程服务不再了,会触发异常
        */
-      public final void sendMessageToServer (int what, Bundle bundle) throws RemoteException {
+      public final void sendMessageToServer ( int what, Bundle bundle ) throws RemoteException {
 
             Message message = Message.obtain();
             message.what = what;
-            message.setData(bundle);
+            message.setData( bundle );
 
-            mClientHandler.sendMessageToServer(message);
+            mClientHandler.sendMessageToServer( message );
       }
 
       /**
@@ -123,8 +123,8 @@ public abstract class BaseClientCore {
        *
        * @throws RemoteException 如果远程服务不再了,会触发异常
        */
-      public final void sendMessageToServer (Message msg) throws RemoteException {
+      public final void sendMessageToServer ( Message msg ) throws RemoteException {
 
-            mClientHandler.sendMessageToServer(msg);
+            mClientHandler.sendMessageToServer( msg );
       }
 }

@@ -1,4 +1,4 @@
-package tech.threekilogram.service.remote;
+package tech.liujin.service.remote;
 
 import android.content.ComponentName;
 import android.content.Context;
@@ -36,27 +36,27 @@ public class ServerConnection implements ServiceConnection {
       public <T extends BaseServerService> void connectToServer (
           Context context,
           BaseClientCore clientCore,
-          Class<T> serviceClazz) {
+          Class<T> serviceClazz ) {
 
-            if(!isConnected) {
+            if( !isConnected ) {
 
                   mClientCore = clientCore;
-                  Intent intent = new Intent(context, serviceClazz);
-                  context.bindService(intent, this, Context.BIND_AUTO_CREATE);
+                  Intent intent = new Intent( context, serviceClazz );
+                  context.bindService( intent, this, Context.BIND_AUTO_CREATE );
             }
       }
 
-      public void disConnectToServer (Context context) {
+      public void disConnectToServer ( Context context ) {
 
-            if(isConnected) {
-                  context.unbindService(this);
-                  mClientCore.onFinish(this);
+            if( isConnected ) {
+                  context.unbindService( this );
+                  mClientCore.onFinish( this );
                   isConnected = false;
             }
       }
 
       @Override
-      public void onServiceConnected (ComponentName name, IBinder service) {
+      public void onServiceConnected ( ComponentName name, IBinder service ) {
 
             /* 只有连接成功之后才设置状态为已经连接 */
 
@@ -65,40 +65,40 @@ public class ServerConnection implements ServiceConnection {
 
             /* 设置 mClientCore 变量 */
 
-            mClientCore.init(service);
+            mClientCore.init( service );
 
             /* 通知 mClientCore 已将连接 */
 
-            mClientCore.onStart(name);
+            mClientCore.onStart( name );
       }
 
       @Override
-      public void onServiceDisconnected (ComponentName name) {
+      public void onServiceDisconnected ( ComponentName name ) {
 
             isConnected = false;
 
             /* 通知 mClientCore 连接中断 */
 
-            mClientCore.onServiceDisconnected(name);
+            mClientCore.onServiceDisconnected( name );
       }
 
       @Override
-      public void onBindingDied (ComponentName name) {
+      public void onBindingDied ( ComponentName name ) {
 
             isConnected = false;
 
             /* 通知 mClientCore 连接中断 */
 
-            mClientCore.onBindingDied(name);
+            mClientCore.onBindingDied( name );
       }
 
       /**
        * 查看 binder 对应的进程是否存活 Check to see if the object still exists.
        *
        * @return Returns false if the hosting process is gone, otherwise the result (always by
-       * default true)
+       *     default true)
        */
-      public final boolean ping () {
+      public final boolean ping ( ) {
 
             return mBinder.pingBinder();
       }

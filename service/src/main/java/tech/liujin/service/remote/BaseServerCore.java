@@ -1,4 +1,4 @@
-package tech.threekilogram.service.remote;
+package tech.liujin.service.remote;
 
 import android.content.Context;
 import android.content.Intent;
@@ -22,9 +22,9 @@ public abstract class BaseServerCore {
        */
       private ServerHandler mServerHandler;
 
-      public BaseServerCore () {
+      public BaseServerCore ( ) {
 
-            mServerHandler = new ServerHandler(this);
+            mServerHandler = new ServerHandler( this );
       }
 
       /**
@@ -32,7 +32,7 @@ public abstract class BaseServerCore {
        *
        * @param context service context
        */
-      protected void onCreate (Context context) {
+      protected void onCreate ( Context context ) {
 
       }
 
@@ -41,21 +41,21 @@ public abstract class BaseServerCore {
        *
        * @param intent from {@link BaseServerService#onBind(Intent)}
        */
-      protected abstract void onStart (Intent intent);
+      protected abstract void onStart ( Intent intent );
 
       /**
        * 当{@link BaseServerService#onUnbind(Intent)}调用时回调
        *
        * @param intent from {@link BaseServerService#onUnbind(Intent)}
        */
-      protected void onStop (Intent intent) {
+      protected void onStop ( Intent intent ) {
 
       }
 
       /**
        * 当{@link BaseServerService#onDestroy()}调用时回调
        */
-      protected void onDestroy () {
+      protected void onDestroy ( ) {
 
       }
 
@@ -64,7 +64,7 @@ public abstract class BaseServerCore {
        *
        * @return binder
        */
-      IBinder getBinder () {
+      IBinder getBinder ( ) {
 
             return mServerHandler.getBinder();
       }
@@ -72,7 +72,7 @@ public abstract class BaseServerCore {
       /**
        * @return 服务端自己的handler, 用户可以使用该handler处理自己的事件
        */
-      public Handler getHandler () {
+      public Handler getHandler ( ) {
 
             return mServerHandler;
       }
@@ -82,7 +82,7 @@ public abstract class BaseServerCore {
        *
        * @param msg 消息
        */
-      protected abstract void handleMessage (Message msg);
+      protected abstract void handleMessage ( Message msg );
 
       /**
        * 向客户端发动一条消息
@@ -91,12 +91,12 @@ public abstract class BaseServerCore {
        *
        * @throws RemoteException 如果远程服务不再了,会触发异常
        */
-      public final void sendMessageToClient (int what) throws RemoteException {
+      public final void sendMessageToClient ( int what ) throws RemoteException {
 
             Message message = Message.obtain();
             message.what = what;
 
-            mServerHandler.sendMessageToClient(message);
+            mServerHandler.sendMessageToClient( message );
       }
 
       /**
@@ -107,13 +107,13 @@ public abstract class BaseServerCore {
        *
        * @throws RemoteException 如果远程服务不再了,会触发异常
        */
-      public final void sendMessageToClient (int what, Bundle bundle) throws RemoteException {
+      public final void sendMessageToClient ( int what, Bundle bundle ) throws RemoteException {
 
             Message message = Message.obtain();
             message.what = what;
-            message.setData(bundle);
+            message.setData( bundle );
 
-            mServerHandler.sendMessageToClient(message);
+            mServerHandler.sendMessageToClient( message );
       }
 
       /**
@@ -123,8 +123,8 @@ public abstract class BaseServerCore {
        *
        * @throws RemoteException 如果远程服务不再了,会触发异常
        */
-      public final void sendMessageToClient (Message msg) throws RemoteException {
+      public final void sendMessageToClient ( Message msg ) throws RemoteException {
 
-            mServerHandler.sendMessageToClient(msg);
+            mServerHandler.sendMessageToClient( msg );
       }
 }

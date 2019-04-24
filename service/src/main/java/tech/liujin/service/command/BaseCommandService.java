@@ -1,4 +1,4 @@
-package tech.threekilogram.service.command;
+package tech.liujin.service.command;
 
 import android.app.Service;
 import android.content.Intent;

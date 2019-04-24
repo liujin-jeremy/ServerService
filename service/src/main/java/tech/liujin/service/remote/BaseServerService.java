@@ -1,4 +1,4 @@
-package tech.threekilogram.service.remote;
+package tech.liujin.service.remote;
 
 import android.app.Service;
 import android.content.Intent;
@@ -13,7 +13,7 @@ public abstract class BaseServerService extends Service {
 
       private BaseServerCore mServerCore;
 
-      public BaseServerService () {
+      public BaseServerService ( ) {
 
             mServerCore = makeServerCore();
       }
@@ -23,31 +23,31 @@ public abstract class BaseServerService extends Service {
        *
        * @return {@link BaseServerCore}
        */
-      protected abstract BaseServerCore makeServerCore ();
+      protected abstract BaseServerCore makeServerCore ( );
 
       @Override
-      public void onCreate () {
+      public void onCreate ( ) {
 
-            mServerCore.onCreate(this);
+            mServerCore.onCreate( this );
       }
 
       @Override
-      public void onDestroy () {
+      public void onDestroy ( ) {
 
             mServerCore.onDestroy();
       }
 
       @Override
-      public IBinder onBind (Intent intent) {
+      public IBinder onBind ( Intent intent ) {
 
-            mServerCore.onStart(intent);
+            mServerCore.onStart( intent );
             return mServerCore.getBinder();
       }
 
       @Override
-      public boolean onUnbind (Intent intent) {
+      public boolean onUnbind ( Intent intent ) {
 
-            mServerCore.onStop(intent);
-            return super.onUnbind(intent);
+            mServerCore.onStop( intent );
+            return super.onUnbind( intent );
       }
 }

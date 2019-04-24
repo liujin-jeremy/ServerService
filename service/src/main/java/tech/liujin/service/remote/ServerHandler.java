@@ -1,4 +1,4 @@
-package tech.threekilogram.service.remote;
+package tech.liujin.service.remote;
 
 import android.content.Intent;
 import android.os.Handler;
@@ -14,22 +14,22 @@ import android.os.RemoteException;
  */
 class ServerHandler extends Handler {
 
-      static final         int    WHAT_BIND_CLIENT = 0xACCD_ffff;
-      private static final String TAG              = "ServerHandler";
+      static final         int       WHAT_BIND_CLIENT = 0xACCD_ffff;
+      private static final String    TAG              = "ServerHandler";
       /**
        * server messenger ,used for communication
        */
-      private Messenger mServerMessenger;
-      private Messenger mClientMessenger;
+      private              Messenger mServerMessenger;
+      private              Messenger mClientMessenger;
 
       /**
        * 将消息转发给它处理
        */
       private BaseServerCore mServerCore;
 
-      ServerHandler (BaseServerCore serverCore) {
+      ServerHandler ( BaseServerCore serverCore ) {
 
-            mServerMessenger = new Messenger(this);
+            mServerMessenger = new Messenger( this );
             mServerCore = serverCore;
       }
 
@@ -38,21 +38,21 @@ class ServerHandler extends Handler {
        *
        * @return binder
        */
-      IBinder getBinder () {
+      IBinder getBinder ( ) {
 
             return mServerMessenger.getBinder();
       }
 
       @Override
-      public void handleMessage (Message msg) {
+      public void handleMessage ( Message msg ) {
 
-            switch(msg.what) {
+            switch( msg.what ) {
 
                   case WHAT_BIND_CLIENT:
-                        bindClient(msg);
+                        bindClient( msg );
                         break;
                   default:
-                        mServerCore.handleMessage(msg);
+                        mServerCore.handleMessage( msg );
                         break;
             }
       }
@@ -60,7 +60,7 @@ class ServerHandler extends Handler {
       /**
        * get message.replyTo as clientMessenger
        */
-      private void bindClient (Message msg) {
+      private void bindClient ( Message msg ) {
 
             mClientMessenger = msg.replyTo;
       }
@@ -72,8 +72,8 @@ class ServerHandler extends Handler {
        *
        * @throws RemoteException 如果服务不再了会触发异常
        */
-      void sendMessageToClient (Message msg) throws RemoteException {
+      void sendMessageToClient ( Message msg ) throws RemoteException {
 
-            mClientMessenger.send(msg);
+            mClientMessenger.send( msg );
       }
 }
