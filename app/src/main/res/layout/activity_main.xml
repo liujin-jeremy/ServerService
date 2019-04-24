@@ -1,36 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        tools:context=".MainActivity">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
 
-    <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
-            android:text="以下测试commandService"/>
+      <TextView
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="8dp"
+          android:layout_marginBottom="8dp"
+          android:text="测试跨进程Service"/>
 
-    <Button
-            android:onClick="commandNormal"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="command normal"/>
+      <Button
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:onClick="commandTest00"
+          android:text="跨进程命令 0"/>
 
-    <Button
-            android:onClick="commandStart"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="command start"/>
+      <Button
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:onClick="commandTest01"
+          android:text="跨进程传参"/>
 
-    <Button
-            android:onClick="commandStart01"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="command start 01"/>
+      <Button
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:onClick="commandTest02"
+          android:text="跨进程命令/传参"/>
 
+
+      <TextView
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="8dp"
+          android:layout_marginBottom="8dp"
+          android:text="测试进程内Service"/>
+
+      <Button
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:onClick="commandTest03"
+          android:text="进程内命令"/>
+
+      <Button
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:onClick="commandTest04"
+          android:text="进程内传参"/>
+
+      <Button
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:onClick="commandTest05"
+          android:text="进程内命令/传参"/>
 
 </LinearLayout>

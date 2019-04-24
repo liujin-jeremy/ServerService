@@ -18,6 +18,13 @@ public class RemoteService extends RemoteCommandService {
       }
 
       @Override
+      protected void onCommandReceive ( Bundle bundle ) {
+
+            super.onCommandReceive( bundle );
+            Log.i( TAG, "onCommandReceive: " + bundle );
+      }
+
+      @Override
       public void onCommandReceive ( int what, Bundle bundle ) {
 
             Log.i( TAG, "onCommandReceive:" + what + " " + bundle );

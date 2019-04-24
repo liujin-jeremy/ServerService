@@ -1,9 +1,7 @@
 package tech.threekilogram.processlib;
 
-import android.app.Service;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import tech.liujin.service.command.CommandManager;
 
@@ -21,28 +19,38 @@ public class MainActivity extends AppCompatActivity {
 
       //============================ 测试CommandService ============================
 
-      public void commandNormal ( View view ) {
+      public void commandTest00 ( View view ) {
 
-            CommandManager.sendRemoteCommand( this, LocalService.class, new ServiceCommand() {
-
-                  @Override
-                  public void run ( Service service ) {
-
-                        String TAG = " normal command ";
-                        Log.i( TAG, "run:" + Thread.currentThread() );
-                  }
-            } );
+            CommandManager.sendRemoteCommand( this, RemoteService.class, 0 );
       }
 
-      public void commandStart ( View view ) {
-
-            CommandManager.sendRemoteCommand( this, RemoteService.class, 12 );
-      }
-
-      public void commandStart01 ( View view ) {
+      public void commandTest01 ( View view ) {
 
             Bundle bundle = new Bundle();
             bundle.putString( "temp", "Hello" );
-            CommandManager.sendRemoteCommand( this, RemoteService.class, 12, bundle );
+            CommandManager.sendRemoteCommand( this, RemoteService.class, bundle );
+      }
+
+      public void commandTest02 ( View view ) {
+
+            Bundle bundle = new Bundle();
+            bundle.putString( "temp", "Hello" );
+            CommandManager.sendRemoteCommand( this, RemoteService.class, 1, bundle );
+      }
+
+      public void commandTest03 ( View view ) {
+
+            CommandManager.sendLocalCommand( this, LocalService.class, 2 );
+      }
+
+      public void commandTest04 ( View view ) {
+
+            String s = "Hello World";
+            CommandManager.sendLocalCommand( this, LocalService.class, s );
+      }
+
+      public void commandTest05 ( View view ) {
+
+            CommandManager.sendLocalCommand( this, LocalService.class, 3, "Hello Local Service" );
       }
 }
