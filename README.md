@@ -75,3 +75,71 @@ CommandManager.sendLocalCommand( this, LocalService.class, new Runnable() {
       }
 } );
 ```
+
+
+
+### 跨进程Service
+
+```
+public class RemoteService extends RemoteCommandService {
+
+      private static final String TAG = "RemoteService";
+
+      @Override
+      public void onCommandReceive ( int what ) {
+
+            Log.i( TAG, "onCommandReceive:" + what );
+      }
+
+      @Override
+      protected void onCommandReceive ( Bundle bundle ) {
+
+            super.onCommandReceive( bundle );
+            Set<String> keySet = bundle.keySet();
+            for( String s : keySet ) {
+                  Object o = bundle.get( s );
+                  Log.i( TAG, "onCommandReceive: " + o );
+            }
+      }
+
+      @Override
+      public void onCommandReceive ( int what, Bundle bundle ) {
+
+            Set<String> keySet = bundle.keySet();
+            for( String s : keySet ) {
+                  Object o = bundle.get( s );
+                  Log.i( TAG, "onCommandReceive: " + o + " " + what );
+            }
+      }
+}
+```
+
+```
+<service
+    android:enabled="true"
+    android:name=".RemoteService"
+    android:process=":test"/>
+```
+
+发送命令
+
+```
+CommandManager.sendRemoteCommand( this, RemoteService.class, 0 );
+```
+
+发送参数
+
+```
+Bundle bundle = new Bundle();
+bundle.putString( "temp", "Hello" );
+CommandManager.sendRemoteCommand( this, RemoteService.class, bundle );
+```
+
+发送命令/参数
+
+```
+Bundle bundle = new Bundle();
+bundle.putString( "temp", "Hello" );
+CommandManager.sendRemoteCommand( this, RemoteService.class, 1, bundle );
+```
+
