@@ -1,6 +1,6 @@
 package tech.threekilogram.processlib.command;
 
-import tech.threekilogram.service.command.BaseInnerCommandService;
+import tech.liujin.service.command.BaseInnerCommandService;
 
 /**
  * @author wuxio 2018-06-11:17:45

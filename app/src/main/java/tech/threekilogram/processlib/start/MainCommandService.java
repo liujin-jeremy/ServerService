@@ -2,8 +2,8 @@ package tech.threekilogram.processlib.start;
 
 import android.os.Bundle;
 import android.util.Log;
-import tech.threekilogram.service.command.BaseCommandService;
-import tech.threekilogram.service.command.CommandReceiver;
+import tech.liujin.service.command.BaseCommandService;
+import tech.liujin.service.command.CommandReceiver;
 
 /**
  * @author wuxio 2018-06-12:8:35
@@ -18,7 +18,7 @@ public class MainCommandService extends BaseCommandService {
        * @return 消息接收类
        */
       @Override
-      protected CommandReceiver createCommandReceiver () {
+      protected CommandReceiver createCommandReceiver ( ) {
 
             return new Receiver();
       }
@@ -29,15 +29,15 @@ public class MainCommandService extends BaseCommandService {
       private class Receiver implements CommandReceiver {
 
             @Override
-            public void onCommandReceive (int what) {
+            public void onCommandReceive ( int what ) {
 
-                  Log.i(TAG, "onCommandReceive:" + what);
+                  Log.i( TAG, "onCommandReceive:" + what );
             }
 
             @Override
-            public void onCommandReceive (int what, Bundle bundle) {
+            public void onCommandReceive ( int what, Bundle bundle ) {
 
-                  Log.i(TAG, "onCommandReceive:" + what + " " + bundle);
+                  Log.i( TAG, "onCommandReceive:" + what + " " + bundle );
             }
       }
 }
