@@ -58,4 +58,11 @@
           android:onClick="commandTest05"
           android:text="进程内命令/传参"/>
 
+      <Button
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:onClick="commandTest06"
+          android:text="进程内Runnable"/>
+
+
 </LinearLayout>

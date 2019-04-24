@@ -2,6 +2,7 @@ package tech.threekilogram.processlib;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import tech.liujin.service.CommandManager;
 
@@ -9,6 +10,8 @@ import tech.liujin.service.CommandManager;
  * @author wuxio
  */
 public class MainActivity extends AppCompatActivity {
+
+      private static final String TAG = MainActivity.class.getSimpleName();
 
       @Override
       protected void onCreate ( Bundle savedInstanceState ) {
@@ -52,5 +55,17 @@ public class MainActivity extends AppCompatActivity {
       public void commandTest05 ( View view ) {
 
             CommandManager.sendLocalCommand( this, LocalService.class, 3, "Hello Local Service" );
+      }
+
+      public void commandTest06 ( View view ) {
+
+            CommandManager.sendLocalCommand( this, LocalService.class, new Runnable() {
+
+                  @Override
+                  public void run ( ) {
+
+                        Log.i( TAG, "run: " + " 运行一段程序" );
+                  }
+            } );
       }
 }
