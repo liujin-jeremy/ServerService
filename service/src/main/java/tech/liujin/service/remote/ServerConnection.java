@@ -11,6 +11,7 @@ import android.os.IBinder;
  *
  * @author wuxio 2018-06-02:21:36
  */
+@Deprecated
 public class ServerConnection implements ServiceConnection {
 
       /**

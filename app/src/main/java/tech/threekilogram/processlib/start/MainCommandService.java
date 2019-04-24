@@ -2,13 +2,13 @@ package tech.threekilogram.processlib.start;
 
 import android.os.Bundle;
 import android.util.Log;
-import tech.liujin.service.command.BaseCommandService;
+import tech.liujin.service.command.RemoteCommandService;
 import tech.liujin.service.command.CommandReceiver;
 
 /**
  * @author wuxio 2018-06-12:8:35
  */
-public class MainCommandService extends BaseCommandService {
+public class MainCommandService extends RemoteCommandService {
 
       private static final String TAG = "MainCommandService";
 

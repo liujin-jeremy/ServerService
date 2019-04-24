@@ -9,6 +9,7 @@ import android.os.IBinder;
  *
  * @author wuxio
  */
+@Deprecated
 public abstract class BaseServerService extends Service {
 
       private BaseServerCore mServerCore;

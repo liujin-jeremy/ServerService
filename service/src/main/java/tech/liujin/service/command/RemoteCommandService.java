@@ -13,11 +13,11 @@ import android.support.annotation.Nullable;
  *
  * @author wuxio 2018-06-12:7:29
  */
-public abstract class BaseCommandService extends Service {
+public abstract class RemoteCommandService extends Service {
 
       private CommandHandler mCommandHandler;
 
-      public BaseCommandService ( ) {
+      public RemoteCommandService ( ) {
 
             CommandReceiver receiver = createCommandReceiver();
             mCommandHandler = new CommandHandler( receiver );
@@ -36,21 +36,11 @@ public abstract class BaseCommandService extends Service {
             if( intent.hasExtra( CommandServiceManager.KEY_COMMAND_EXTRA ) ) {
 
                   Bundle bundle = intent.getBundleExtra( CommandServiceManager.KEY_COMMAND_EXTRA );
-                  boolean which = bundle
-                      .getBoolean( CommandServiceManager.KEY_COMMAND_WITHOUT_BUNDLE_EXTRA );
-
+                  boolean which = bundle.getBoolean( CommandServiceManager.KEY_COMMAND_WITHOUT_BUNDLE_EXTRA );
                   if( which ) {
-
-                        mCommandHandler
-                            .newCommandArrive(
-                                bundle.getInt( CommandServiceManager.KEY_COMMAND_WHAT ) );
+                        mCommandHandler.newCommandArrive( bundle.getInt( CommandServiceManager.KEY_COMMAND_WHAT ) );
                   } else {
-
-                        mCommandHandler
-                            .newCommandArrive(
-                                bundle.getInt( CommandServiceManager.KEY_COMMAND_WHAT ),
-                                bundle
-                            );
+                        mCommandHandler.newCommandArrive( bundle.getInt( CommandServiceManager.KEY_COMMAND_WHAT ), bundle );
                   }
             }
 
@@ -71,12 +61,12 @@ public abstract class BaseCommandService extends Service {
 
             private CommandReceiver mCommandReceiver;
 
-            public CommandHandler ( CommandReceiver commandReceiver ) {
+            private CommandHandler ( CommandReceiver commandReceiver ) {
 
                   mCommandReceiver = commandReceiver;
             }
 
-            public void newCommandArrive ( int commandWhat ) {
+            private void newCommandArrive ( int commandWhat ) {
 
                   Message message = Message.obtain();
                   message.what = WHAT_COMMAND;
@@ -84,7 +74,7 @@ public abstract class BaseCommandService extends Service {
                   sendMessage( message );
             }
 
-            public void newCommandArrive ( int commandWhat, Bundle bundle ) {
+            private void newCommandArrive ( int commandWhat, Bundle bundle ) {
 
                   Message message = Message.obtain();
                   message.what = WHAT_COMMAND_EXTRA;

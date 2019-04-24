@@ -9,6 +9,7 @@ import android.os.RemoteException;
 /**
  * @author wuxio 2018-06-02:21:37
  */
+@Deprecated
 class ClientHandler extends Handler {
 
       private static final String TAG = "ClientHandler";

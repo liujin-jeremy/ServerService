@@ -12,34 +12,40 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class CommandServiceManager {
 
       /**
-       * 用于发送给{@link BaseInnerCommandService}的{@link ServiceCommand}位于{@link
+       * 用于发送给{@link CommandService}的{@link ServiceCommand}位于{@link
        * #sRunnableArrayMap}的索引的key
        */
-      static final   String                            KEY_COMMAND_INDEX                = "tech.threekilogram.command.inner.service:";
+      static final String KEY_COMMAND_INDEX = "tech.liujin.command.inner.service:";
+
       /**
        * {@link #sAtomicInteger} 起始索引
        */
-      static final   int                               START_INDEX                      = 1010;
+      static final int START_INDEX = 1010;
+
       /**
        * 用于标识{@link #sendCommand(Context, Class, int)}中what 的key
        */
-      static final   String                            KEY_COMMAND_WHAT                 = "tech.threekilogram.command.start.service:";
+      static final String KEY_COMMAND_WHAT = "tech.liujin.command.start.service:";
+
       /**
        * 用于标识{@link #sendCommand(Context, Class, int)}中没有额外的bundle信息 的key
        */
-      static final   String                            KEY_COMMAND_WITHOUT_BUNDLE_EXTRA = "tech.threekilogram.command.start.service.which:";
+      static final String KEY_COMMAND_WITHOUT_BUNDLE_EXTRA = "tech.liujin.command.start.service.which:";
+
       /**
        * 用于标识{@link #sendCommand(Context, Class, int, Bundle)} 中 bundle 的key
        */
-      static final   String                            KEY_COMMAND_EXTRA                = "tech.threekilogram.command.start.extra.service:";
+      static final String KEY_COMMAND_EXTRA = "tech.liujin.command.start.extra.service:";
+
       /**
-       * 临时放置传送给{@link BaseInnerCommandService}的{@link ServiceCommand}
+       * 临时放置传送给{@link CommandService}的{@link ServiceCommand}
        */
       private static ArrayMap<Integer, ServiceCommand> sRunnableArrayMap;
+
       /**
        * 为{@link #sRunnableArrayMap}提供线程安全的索引
        */
-      private static AtomicInteger                     sAtomicInteger;
+      private static AtomicInteger sAtomicInteger;
 
       // ========================= 本地service通信 =========================
 
@@ -57,7 +63,7 @@ public class CommandServiceManager {
       }
 
       /**
-       * 用于{@link BaseInnerCommandService} 根据索引读取任务
+       * 用于{@link CommandService} 根据索引读取任务
        *
        * @param index 索引
        *
@@ -71,7 +77,7 @@ public class CommandServiceManager {
       /**
        * 发送任务给service执行
        */
-      public static <T extends BaseInnerCommandService> void sendCommand (
+      public static <T extends CommandService> void sendCommand (
           Context context,
           Class<T> commandServiceClazz,
           ServiceCommand runnable ) {
@@ -91,7 +97,7 @@ public class CommandServiceManager {
       /**
        * 发送任务给service执行
        */
-      public static <T extends BaseCommandService> void sendCommand (
+      public static <T extends RemoteCommandService> void sendCommand (
           Context context,
           Class<T> commandServiceClazz,
           int what ) {
@@ -108,7 +114,7 @@ public class CommandServiceManager {
       /**
        * 发送任务给service执行
        */
-      public static <T extends BaseCommandService> void sendCommand (
+      public static <T extends RemoteCommandService> void sendCommand (
           Context context,
           Class<T> commandServiceClazz,
           int what,

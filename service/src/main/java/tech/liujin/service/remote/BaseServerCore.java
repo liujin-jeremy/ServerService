@@ -15,6 +15,7 @@ import android.os.RemoteException;
  *
  * @author wuxio 2018-06-03:3:30
  */
+@Deprecated
 public abstract class BaseServerCore {
 
       /**

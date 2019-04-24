@@ -12,6 +12,7 @@ import android.os.RemoteException;
  *
  * @author wuxio 2018-06-02:21:35
  */
+@Deprecated
 class ServerHandler extends Handler {
 
       static final         int       WHAT_BIND_CLIENT = 0xACCD_ffff;

@@ -15,7 +15,7 @@ import java.util.ArrayList;
  *
  * @author wuxio 2018-06-11:16:51
  */
-public class BaseInnerCommandService extends Service {
+public class CommandService extends Service {
 
       private CommandHandler mCommandHandler;
 
@@ -71,10 +71,10 @@ public class BaseInnerCommandService extends Service {
 
             final static int WHAT_NEW_COMMAND = 0b100010101;
 
-            private ArrayList<ServiceCommand>              mCommands = new ArrayList<>();
-            private WeakReference<BaseInnerCommandService> mReference;
+            private ArrayList<ServiceCommand>     mCommands = new ArrayList<>();
+            private WeakReference<CommandService> mReference;
 
-            public CommandHandler ( BaseInnerCommandService service ) {
+            private CommandHandler ( CommandService service ) {
 
                   mReference = new WeakReference<>( service );
             }

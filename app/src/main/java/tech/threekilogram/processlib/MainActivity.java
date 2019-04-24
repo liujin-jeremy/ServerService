@@ -2,16 +2,12 @@ package tech.threekilogram.processlib;
 
 import android.app.Service;
 import android.os.Bundle;
-import android.os.RemoteException;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import tech.liujin.service.command.CommandServiceManager;
 import tech.liujin.service.command.ServiceCommand;
-import tech.liujin.service.remote.ServerConnection;
 import tech.threekilogram.processlib.command.CommandService;
-import tech.threekilogram.processlib.remote.MainClientCore;
-import tech.threekilogram.processlib.remote.MainServer;
 import tech.threekilogram.processlib.start.MainCommandService;
 
 /**
@@ -19,40 +15,11 @@ import tech.threekilogram.processlib.start.MainCommandService;
  */
 public class MainActivity extends AppCompatActivity {
 
-      private ServerConnection mConnection;
-
-      //============================ 测试ServerService ============================
-      private MainClientCore mCore;
-
       @Override
       protected void onCreate ( Bundle savedInstanceState ) {
 
             super.onCreate( savedInstanceState );
             setContentView( R.layout.activity_main );
-
-            mConnection = new ServerConnection();
-      }
-
-      public void bind ( View view ) {
-
-            if( mCore == null ) {
-                  mCore = new MainClientCore();
-            }
-            mConnection.connectToServer( this, mCore, MainServer.class );
-      }
-
-      public void unBind ( View view ) {
-
-            mConnection.disConnectToServer( this );
-      }
-
-      public void sendToServer ( View view ) {
-
-            try {
-                  mCore.sendMessageToServer( 12 );
-            } catch(RemoteException e) {
-                  e.printStackTrace();
-            }
       }
 
       //============================ 测试CommandService ============================
