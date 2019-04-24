@@ -123,18 +123,22 @@ public class RemoteCommandService extends Service {
             @Override
             public void handleMessage ( Message msg ) {
 
-                  switch( msg.what ) {
+                  try {
+                        switch( msg.what ) {
 
-                        case WHAT_COMMAND:
-                              mService.onCommandReceive( msg.arg1 );
-                              break;
-                        case BUNDLE_COMMAND:
-                              mService.onCommandReceive( msg.getData() );
-                              break;
-                        case WHAT_BUNDLE_COMMAND:
-                              mService.onCommandReceive( msg.arg1, msg.getData() );
-                        default:
-                              break;
+                              case WHAT_COMMAND:
+                                    mService.onCommandReceive( msg.arg1 );
+                                    break;
+                              case BUNDLE_COMMAND:
+                                    mService.onCommandReceive( msg.getData() );
+                                    break;
+                              case WHAT_BUNDLE_COMMAND:
+                                    mService.onCommandReceive( msg.arg1, msg.getData() );
+                              default:
+                                    break;
+                        }
+                  } catch(Exception e) {
+                        e.printStackTrace();
                   }
             }
       }

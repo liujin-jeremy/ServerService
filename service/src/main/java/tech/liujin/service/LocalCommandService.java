@@ -15,6 +15,9 @@ import android.support.annotation.Nullable;
  */
 public class LocalCommandService extends Service {
 
+      /**
+       * 辅助处理命令
+       */
       private CommandHandler mCommandHandler;
 
       @Override
@@ -29,7 +32,6 @@ public class LocalCommandService extends Service {
       public int onStartCommand ( Intent intent, int flags, int startId ) {
 
             int type = intent.getIntExtra( CommandManager.KEY_COMMAND_TYPE, CommandManager.COMMAND_TYPE_NOT_DEFINE );
-
             switch( type ) {
                   case CommandManager.COMMAND_TYPE_WHAT:
                         mCommandHandler.newCommandArrive( intent.getIntExtra( CommandManager.KEY_COMMAND_WHAT, 0 ) );
@@ -125,6 +127,7 @@ public class LocalCommandService extends Service {
                   Message obtain = Message.obtain();
                   obtain.what = WHAT_COMMAND;
                   obtain.arg1 = what;
+                  sendMessage( obtain );
             }
 
             void newCommandArrive ( Runnable command ) {
@@ -132,6 +135,7 @@ public class LocalCommandService extends Service {
                   Message obtain = Message.obtain();
                   obtain.what = RUNNABLE_COMMAND;
                   obtain.obj = command;
+                  sendMessage( obtain );
             }
 
             void newCommandArrive ( Object o ) {
@@ -139,6 +143,7 @@ public class LocalCommandService extends Service {
                   Message obtain = Message.obtain();
                   obtain.what = OBJECT_COMMAND;
                   obtain.obj = o;
+                  sendMessage( obtain );
             }
 
             void newCommandArrive ( int what, Object o ) {
@@ -147,6 +152,7 @@ public class LocalCommandService extends Service {
                   obtain.what = WHAT_OBJECT_COMMAND;
                   obtain.arg1 = what;
                   obtain.obj = o;
+                  sendMessage( obtain );
             }
 
             @Override
