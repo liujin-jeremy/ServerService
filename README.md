@@ -5,7 +5,7 @@
 ## 引入
 
 ```
-implementation 'tech.liujin:service:1.0.0'
+implementation 'tech.liujin:service:1.0.1'
 ```
 
 ## 使用
